@@ -13,6 +13,7 @@ namespace KR123
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+            textBox2.PasswordChar = '*';
         }
         private static string ComputeSha256Hash(string rawData)
         {

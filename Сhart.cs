@@ -11,20 +11,20 @@ namespace KR123
     {
         public string userLogin = string.Empty;
         private readonly CheckAdmin _user;
-        private double Ve, τd, Ed, Td, Tmin, Tmax, ΔT, Qmin, Qmax, ΔQ;
+        private double n, TZero, b, muZero, Tmin, Tmax, ΔT, Ymin, Ymax, ΔY;
 
-        public Сhart(double ve,double τd,double ed,double td,double tmin,double tmax,double Δt,double qmin,double qmax,double Δq, CheckAdmin user)
+        public Сhart(double n,double TZero,double b,double muZero,double tmin,double tmax,double Δt,double ymin,double ymax,double Δy, CheckAdmin user)
         {
-            Ve = ve;
-            this.τd = τd;
-            Ed = ed;
-            Td = td;
+            this.n = n;
+            this.TZero = TZero;
+            this.b = b;
+            this.muZero = muZero;
             Tmin = tmin;
             Tmax = tmax;
             this.ΔT = Δt;
-            Qmin = qmin;
-            Qmax = qmax;
-            ΔQ = Δq;
+            Ymin = ymin;
+            Ymax = ymax;
+            ΔY = Δy;
             _user = user;
 
             InitializeComponent();
@@ -54,30 +54,31 @@ namespace KR123
             SeriesCollection seriesCollection1 = new SeriesCollection();
 
             double T = Tmin;
-            while (T <= Tmax)
+            for (int i = 0; i<3; i++)
             {
                 LineSeries series = new LineSeries
                 {
                     Title = $"T = {T} °C",
                     Values = new ChartValues<double>(),
+                    Fill = System.Windows.Media.Brushes.Transparent
                 };
 
-                double Q = Qmin;
-                while (Q <= Qmax)
+                double Y = Ymin;
+                while (Y <= Ymax)
                 {
-                    double destructionIndex = CalculateDestructionIndex(Q, T);
+                    double destructionIndex = CalculateDestructionIndex(Y, T);
                     series.Values.Add(destructionIndex);
 
-                    Q += ΔQ;
+                    Y += ΔY;
                 }
 
                 seriesCollection1.Add(series);
 
-                T += ΔT;
+                T += (Tmax - Tmin) / 2;
             }
 
-            cartesianChart1.AxisX.Add(new Axis { Title = "Расход потока, л/мин", Labels = GenerateLabels(Qmin, Qmax, ΔQ) });
-            cartesianChart1.AxisY.Add(new Axis { Title = "Индекс термической деструкции, %" });
+            cartesianChart1.AxisX.Add(new Axis { Title = "Скорость деформации, 1/с", Labels = GenerateLabels(Ymin, Ymax, ΔY) });
+            cartesianChart1.AxisY.Add(new Axis { Title = "Вязкость экструданта, Па*с" });
 
             cartesianChart1.Series = seriesCollection1;
 
@@ -93,30 +94,31 @@ namespace KR123
 
             SeriesCollection seriesCollection2 = new SeriesCollection();
 
-            double Q = Qmin;
-            while (Q <= Qmax)
+            double Y = Ymin;
+            for (int i = 0; i < 3; i++)
             {
                 LineSeries series = new LineSeries
                 {
-                    Title = $"Q = {Q} л/мин",
+                    Title = $"Y = {Y} 1/с",
                     Values = new ChartValues<double>(),
+                    Fill = System.Windows.Media.Brushes.Transparent
                 };
 
                 double T = Tmin;
                 while (T <= Tmax)
                 {
-                    double destructionIndex = CalculateDestructionIndex(Q, T);
+                    double destructionIndex = CalculateDestructionIndex(Y, T);
                     series.Values.Add(destructionIndex);
 
                     T += ΔT;
                 }
 
                 seriesCollection2.Add(series);
-                Q += ΔQ;
+                Y += (Ymax - Ymin) / 2;
             }
 
             cartesianChart2.AxisX.Add(new Axis { Title = "Температура, °C", Labels = GenerateLabels(Tmin, Tmax, ΔT) });
-            cartesianChart2.AxisY.Add(new Axis { Title = "Индекс термической деструкции, %" });
+            cartesianChart2.AxisY.Add(new Axis { Title = "Вязкость экструданта, Па*с" });
 
             cartesianChart2.Series = seriesCollection2;
 
@@ -138,9 +140,9 @@ namespace KR123
             return labels;
         }
 
-        private double CalculateDestructionIndex(double Q, double T)
+        private double CalculateDestructionIndex(double Y, double T)
         {
-            double index = (Ve / (τd * Q)) * Math.Exp(Ed / (8.31 * (T + 273.15) * (Td + 273.15)) * (T - Td)) * 100;
+            double index = muZero * Math.Exp(-b * (T - TZero) * Math.Pow(Y, n - 1));
 
             return Math.Round(index, 3);
         }
@@ -152,21 +154,21 @@ namespace KR123
         private void ShowMatrixForm()
         {
             DataTable matrixTable = new DataTable();
-            matrixTable.Columns.Add("Q, л/мин");
+            matrixTable.Columns.Add("Y, 1/c");
 
             for (double T = Tmin; T <= Tmax; T += ΔT)
             {
                 matrixTable.Columns.Add($"T={T}°C");
             }
 
-            for (double Q = Qmin; Q <= Qmax; Q += ΔQ)
+            for (double Y = Ymin; Y <= Ymax; Y += ΔY)
             {
                 DataRow row = matrixTable.NewRow();
-                row["Q, л/мин"] = Q;
+                row["Y, 1/c"] = Y;
 
                 for (double T = Tmin; T <= Tmax; T += ΔT)
                 {
-                    double destructionIndex = CalculateDestructionIndex(Q, T);
+                    double destructionIndex = CalculateDestructionIndex(Y, T);
                     row[$"T={T}°C"] = destructionIndex;
                 }
 

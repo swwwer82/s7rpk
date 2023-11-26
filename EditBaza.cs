@@ -25,7 +25,10 @@ namespace KR123
         private void EditBaza_Load(object sender, EventArgs e)
         {
             dataGridView1.CellClick += dataGridView1_CellClick;
+            
             LoadData();
+
+            SelectFirstRow();
         }
 
         private void LoadData()
@@ -41,6 +44,24 @@ namespace KR123
             dataGridView1.Columns["id"].Visible = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void SelectFirstRow()
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                DataGridViewRow firstRow = dataGridView1.Rows[0];
+                string clickedId = firstRow.Cells["id"].Value.ToString();
+
+                selectedId = clickedId;
+                string name = firstRow.Cells["type_mat"].Value.ToString();
+
+                textBox1.Text = name;
+                string matId = SQLClass.Select(
+                $"SELECT id FROM Polimer_materials WHERE type_mat = '{name}';").FirstOrDefault();
+
+                PopulateTextBoxes(matId, new[] { "3", "4", "5", "6" });
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -60,14 +81,14 @@ namespace KR123
                     string matId = SQLClass.Select(
                     $"SELECT id FROM Polimer_materials WHERE type_mat = '{name}';").FirstOrDefault();
 
-                    PopulateTextBoxes(matId, new[] { "3", "4", "5" });
+                    PopulateTextBoxes(matId, new[] { "3", "4", "5", "6" });
                 }
             }
         }
 
         private void PopulateTextBoxes(string matId, string[] coefMatModelIds)
         {
-            var textBoxList = new List<TextBox> { textBox2, textBox3, textBox4 };
+            var textBoxList = new List<TextBox> { textBox2, textBox3, textBox4, textBox5 };
 
             if (!string.IsNullOrEmpty(matId))
             {

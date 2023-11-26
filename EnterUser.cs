@@ -32,6 +32,20 @@ namespace KR123
         private void EnterUser_Load(object sender, EventArgs e)
         {
             Polimer();
+            if (comboBox1.Items.Count > 0)
+            {
+                comboBox1.SelectedIndex = 0;
+
+                comboBox1_SelectedIndexChanged(sender, e);
+            }
+
+        
+            textBox5.Text = "175"; //Tmin
+            textBox6.Text = "205"; //Tmax
+            textBox7.Text = "2"; //ΔT
+            textBox8.Text = "30"; //Ymin
+            textBox9.Text = "60"; //Ymax
+            textBox10.Text = "2"; //ΔY
         }
 
         private void Polimer()
@@ -48,12 +62,12 @@ namespace KR123
             string matId = SQLClass.Select(
                 $"SELECT id FROM Polimer_materials WHERE type_mat = '{selectedTypeMat}';").FirstOrDefault();
 
-            PopulateTextBoxes(matId, new[] { "3", "4", "5" });
+            PopulateTextBoxes(matId, new[] { "3", "4", "5", "6" });
         }
 
         private void PopulateTextBoxes(string matId, string[] coefMatModelIds)
         {
-            var textBoxList = new List<TextBox> { textBox1, textBox2, textBox3 };
+            var textBoxList = new List<TextBox> { textBox1, textBox2, textBox3, textBox4 };
 
             if (!string.IsNullOrEmpty(matId))
             {
@@ -66,45 +80,45 @@ namespace KR123
             }
         }
 
-        public string VeVal => textBox4.Text;
-        public string τdVal => textBox3.Text;
-        public string EdVal => textBox2.Text;
-        public string TdVal => textBox1.Text;
+        public string nVal => textBox4.Text;
+        public string tZeroVal => textBox3.Text;
+        public string bVal => textBox2.Text;
+        public string muZeroVal => textBox1.Text;
         public string TminVal => textBox5.Text;
         public string TmaxVal => textBox6.Text;
         public string ΔTVal => textBox7.Text;
-        public string QminVal => textBox8.Text;
-        public string QmaxVal => textBox9.Text;
-        public string ΔQVal => textBox10.Text;
+        public string YminVal => textBox8.Text;
+        public string YmaxVal => textBox9.Text;
+        public string ΔYVal => textBox10.Text;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(VeVal) ||
-        string.IsNullOrWhiteSpace(τdVal) ||
-        string.IsNullOrWhiteSpace(EdVal) ||
-        string.IsNullOrWhiteSpace(TdVal) ||
+            if (string.IsNullOrWhiteSpace(nVal) ||
+        string.IsNullOrWhiteSpace(tZeroVal) ||
+        string.IsNullOrWhiteSpace(bVal) ||
+        string.IsNullOrWhiteSpace(muZeroVal) ||
         string.IsNullOrWhiteSpace(TminVal) ||
         string.IsNullOrWhiteSpace(TmaxVal) ||
         string.IsNullOrWhiteSpace(ΔTVal) ||
-        string.IsNullOrWhiteSpace(QminVal) ||
-        string.IsNullOrWhiteSpace(QmaxVal) ||
-        string.IsNullOrWhiteSpace(ΔQVal))
+        string.IsNullOrWhiteSpace(YminVal) ||
+        string.IsNullOrWhiteSpace(YmaxVal) ||
+        string.IsNullOrWhiteSpace(ΔYVal))
             {
                 MessageBox.Show("Заполните все значения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 Сhart chartForm = new Сhart(
-                       double.Parse(VeVal),
-                       double.Parse(τdVal),
-                       double.Parse(EdVal),
-                       double.Parse(TdVal),
+                       double.Parse(nVal),
+                       double.Parse(tZeroVal),
+                       double.Parse(bVal),
+                       double.Parse(muZeroVal),
                        double.Parse(TminVal),
                        double.Parse(TmaxVal),
                        double.Parse(ΔTVal),
-                       double.Parse(QminVal),
-                       double.Parse(QmaxVal),
-                       double.Parse(ΔQVal),
+                       double.Parse(YminVal),
+                       double.Parse(YmaxVal),
+                       double.Parse(ΔYVal),
                        _user
                );
                 chartForm.Show();
@@ -135,6 +149,36 @@ namespace KR123
                 form.Show();
             }
                 Hide();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
