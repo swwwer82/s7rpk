@@ -142,7 +142,7 @@ namespace KR123
 
         private double CalculateDestructionIndex(double Y, double T)
         {
-            double index = muZero * Math.Exp(-b * (T - TZero) * Math.Pow(Y, n - 1));
+            double index = muZero * Math.Exp(-b * (T - TZero)) * Math.Pow(Y, n - 1);
 
             return Math.Round(index, 3);
         }
