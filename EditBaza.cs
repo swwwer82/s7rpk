@@ -1,9 +1,7 @@
-﻿using DocumentFormat.OpenXml.Office.CustomXsn;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -40,7 +38,7 @@ namespace KR123
             adapter.Fill(dt);
 
             dataGridView1.DataSource = dt;
-            dataGridView1.Columns["type_mat"].HeaderText = "Тим материала";
+            dataGridView1.Columns["type_mat"].HeaderText = "Тип материала";
             dataGridView1.Columns["id"].Visible = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -107,8 +105,10 @@ namespace KR123
             string v3 = textBox2.Text;
             string v4 = textBox3.Text;
             string v5 = textBox4.Text;
+            string v6 = textBox5.Text;
 
-            if (string.IsNullOrWhiteSpace(newType) || string.IsNullOrWhiteSpace(v3) || string.IsNullOrWhiteSpace(v4) || string.IsNullOrWhiteSpace(v5))
+
+            if (string.IsNullOrWhiteSpace(newType) || string.IsNullOrWhiteSpace(v3) || string.IsNullOrWhiteSpace(v4) || string.IsNullOrWhiteSpace(v5) || string.IsNullOrWhiteSpace(v6))
             {
                 MessageBox.Show("Ошибка, одно поле или несколько пустое!");
                 return;
@@ -131,7 +131,11 @@ namespace KR123
             string query4 = $"INSERT INTO Values_coef_model (polimer_mat_id, coef_mat_model_id, values_coef) VALUES ('{matId}', '5', '{v5}')";
             MySqlCommand cmd4 = new MySqlCommand(query4, SQLClass.conn);
             cmd4.ExecuteNonQuery();
-            
+            string query5 = $"INSERT INTO Values_coef_model (polimer_mat_id, coef_mat_model_id, values_coef) VALUES ('{matId}', '6', '{v6}')";
+            MySqlCommand cmd5 = new MySqlCommand(query5, SQLClass.conn);
+
+            cmd5.ExecuteNonQuery();
+
             LoadData();
         }
 
@@ -144,8 +148,9 @@ namespace KR123
                 string v3 = textBox2.Text;
                 string v4 = textBox3.Text;
                 string v5 = textBox4.Text;
+                string v6 = textBox5.Text;
 
-                if (string.IsNullOrWhiteSpace(newType) || string.IsNullOrWhiteSpace(v3) || string.IsNullOrWhiteSpace(v4) || string.IsNullOrWhiteSpace(v5))
+                if (string.IsNullOrWhiteSpace(newType) || string.IsNullOrWhiteSpace(v3) || string.IsNullOrWhiteSpace(v4) || string.IsNullOrWhiteSpace(v5) || string.IsNullOrWhiteSpace(v6))
                 {
                     MessageBox.Show("Ошибка, одно поле или несколько пустое!");
                     return;
@@ -167,6 +172,9 @@ namespace KR123
                 string query4 = $"UPDATE Values_coef_model SET values_coef = '{v5}' WHERE polimer_mat_id = {selectedId}";
                 MySqlCommand cmd4 = new MySqlCommand(query4, SQLClass.conn);
                 cmd4.ExecuteNonQuery();
+                string query5 = $"UPDATE Values_coef_model SET values_coef = '{v6}' WHERE polimer_mat_id = {selectedId}";
+                MySqlCommand cmd5 = new MySqlCommand(query5, SQLClass.conn);
+                cmd5.ExecuteNonQuery();
 
                 LoadData();
             }

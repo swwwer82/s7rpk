@@ -8,9 +8,13 @@ namespace KR123
     public partial class DataTableForm : Form
     {
         private DataGridView dataGridView;
+        private string selectedTypeMat;
+        private double bVal;
 
-        public DataTableForm(DataTable table)
+        public DataTableForm(DataTable table, string selectedTypeMat, double bVal)
         {
+            this.selectedTypeMat = selectedTypeMat;
+            this.bVal = bVal;
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
 
@@ -58,6 +62,9 @@ namespace KR123
                             worksheet.Cell(i + 2, j + 1).Value = dataGridView.Rows[i].Cells[j].Value.ToString();
                         }
                     }
+
+                    worksheet.Cell(22, 1).Value = "Выбранный тип материала: " + selectedTypeMat;
+                    worksheet.Cell(23, 1).Value = "Температурный коэфициент вязкости материала b: " + bVal;
 
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {

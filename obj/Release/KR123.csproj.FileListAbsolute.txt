@@ -1,0 +1,10 @@
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.csproj.AssemblyReference.cache
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.DataTableForm.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.EditBaza.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.EnterAdmin.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.EnterUser.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.Entry.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.Сhart.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.Properties.Resources.resources
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.csproj.GenerateResource.cache
+C:\Users\Golum\Desktop\7 семестр\РПК\Готовая\KR123\obj\Release\KR123.csproj.CoreCompileInputs.cache

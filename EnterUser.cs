@@ -90,6 +90,7 @@ namespace KR123
         public string YminVal => textBox8.Text;
         public string YmaxVal => textBox9.Text;
         public string ΔYVal => textBox10.Text;
+        public string mat => comboBox1.SelectedItem as string;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -119,7 +120,8 @@ namespace KR123
                        double.Parse(YminVal),
                        double.Parse(YmaxVal),
                        double.Parse(ΔYVal),
-                       _user
+                       _user,
+                       mat
                );
                 chartForm.Show();
 

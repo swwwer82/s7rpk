@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Data;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace KR123
 {
@@ -12,8 +11,10 @@ namespace KR123
         public string userLogin = string.Empty;
         private readonly CheckAdmin _user;
         private double n, TZero, b, muZero, Tmin, Tmax, ΔT, Ymin, Ymax, ΔY;
+        private string selectedTypeMat;
 
-        public Сhart(double n,double TZero,double b,double muZero,double tmin,double tmax,double Δt,double ymin,double ymax,double Δy, CheckAdmin user)
+
+        public Сhart(double n,double TZero,double b,double muZero,double tmin,double tmax,double Δt,double ymin,double ymax,double Δy, CheckAdmin user, string selectedTypeMat)
         {
             this.n = n;
             this.TZero = TZero;
@@ -26,6 +27,7 @@ namespace KR123
             Ymax = ymax;
             ΔY = Δy;
             _user = user;
+            this.selectedTypeMat = selectedTypeMat;
 
             InitializeComponent();
 
@@ -78,7 +80,7 @@ namespace KR123
             }
 
             cartesianChart1.AxisX.Add(new Axis { Title = "Скорость деформации, 1/с", Labels = GenerateLabels(Ymin, Ymax, ΔY) });
-            cartesianChart1.AxisY.Add(new Axis { Title = "Вязкость экструданта, Па*с" });
+            cartesianChart1.AxisY.Add(new Axis { Title = "Вязкость экструдата, Па*с" });
 
             cartesianChart1.Series = seriesCollection1;
 
@@ -118,7 +120,7 @@ namespace KR123
             }
 
             cartesianChart2.AxisX.Add(new Axis { Title = "Температура, °C", Labels = GenerateLabels(Tmin, Tmax, ΔT) });
-            cartesianChart2.AxisY.Add(new Axis { Title = "Вязкость экструданта, Па*с" });
+            cartesianChart2.AxisY.Add(new Axis { Title = "Вязкость экструдата, Па*с" });
 
             cartesianChart2.Series = seriesCollection2;
 
@@ -180,7 +182,7 @@ namespace KR123
 
         private void ShowDataTableForm(DataTable table)
         {
-            DataTableForm dataTableForm = new DataTableForm(table);
+            DataTableForm dataTableForm = new DataTableForm(table, selectedTypeMat, b);
             dataTableForm.Show();
         }
 
